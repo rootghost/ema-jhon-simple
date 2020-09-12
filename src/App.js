@@ -16,16 +16,18 @@ import Login from './components/Login/Login';
 import Shipment from './components/Shipment/Shipment';
 import { createContext } from 'react';
 import { useState } from 'react';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import Manage from './components/manage/Manage';
 
 export const UserContext =  createContext();
 
 function App() {
-  const [logIn,setLogIn] = useState()
+  const [logInUser,setLogInUser] = useState({})
   return (
-    <UserContext.Provider value={[logIn,setLogIn]} >
-     <h3>Email : {logIn.email}</h3>
-       <Header></Header>
+    <UserContext.Provider value={[logInUser,setLogInUser]} >
         <Router>
+
+            <Header></Header>
             <Switch>
                 <Route path="/shop">
                     <Shop></Shop>
@@ -42,9 +44,12 @@ function App() {
                 <Route exact path="/login">
                       <Login></Login>
                 </Route>
-                <Route exact path="/shipment">
+                <PrivateRoute path="/manage">
+                      <Manage></Manage>
+                </PrivateRoute>
+                <PrivateRoute exact path="/shipment">
                     <Shipment></Shipment>
-                </Route>
+                </PrivateRoute>
                 <Route path="*">
                     <Nomatch></Nomatch>
                 </Route>
