@@ -44,7 +44,7 @@ function App() {
                 <Route exact path="/login">
                       <Login></Login>
                 </Route>
-                <PrivateRoute path="/manage">
+                <PrivateRoute path="/orders">
                       <Manage></Manage>
                 </PrivateRoute>
                 <PrivateRoute exact path="/shipment">

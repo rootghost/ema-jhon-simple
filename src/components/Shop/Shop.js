@@ -8,19 +8,30 @@ import { Link } from 'react-router-dom';
 
 
 const Shop = () => {
-    const first10 = fakedata.slice(0,10);
-    const [products,setProduct] = useState(first10);
+    // const first10 = fakedata.slice(0,10);
+    const [products,setProduct] = useState([]);
     const [cart,setCart] = useState([])
+
+    useEffect(() =>{
+        fetch("http://localhost:5000/products")
+        .then(res => res.json())
+        .then(data => {
+            setProduct(data)
+        })
+    },[])
 
     useEffect(()=>{
         const savedCart = getDatabaseCart();
         const productKeys = Object.keys(savedCart);
-        const previousCart = productKeys.map(existingkey => {
-            const product = fakedata.find(pd => pd.key === existingkey);
-            product.quantity = savedCart[existingkey];
-            return product;
-        })
-       setCart(previousCart);
+        fetch('http://localhost:5000/productsByKeys',{
+           method : "POST",
+           headers : {'content-type' : "application/json"},
+           body : JSON.stringify(productKeys)
+       })
+       .then(res => res.json())
+       .then( data =>{
+        setCart(data)
+       })
     },[])
 
     const handleAddProduct = (product) =>{

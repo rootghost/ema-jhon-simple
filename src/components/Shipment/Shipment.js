@@ -3,11 +3,29 @@ import { useForm } from 'react-hook-form';
 import './Shipment.css'
 import { useContext } from 'react';
 import { UserContext } from '../../App';
+import { getDatabaseCart, processOrder } from '../../utilities/databaseManager';
 
 const Shipment = () => {
-     const [logInUser,setLogInUser] = useContext(UserContext)
+
+    const [logInUser,setLogInUser] = useContext(UserContext)
     const { register, handleSubmit, watch, errors } = useForm();
-    const onSubmit = data => console.log(data);
+
+    const onSubmit = data => {
+        const savedCart = getDatabaseCart();
+        const orderdDetail = {...logInUser,products : savedCart, shipment : data}
+        fetch("http://localhost:5000/addOrder",{
+          method : "POST",
+          headers : {'content-type' : 'application/json'},
+          body : JSON.stringify(orderdDetail)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if(data){
+            processOrder();
+            alert("your order placed successfully")
+          }
+        })
+    };
   
     console.log(watch("example")); // watch input value by passing the name of it
   

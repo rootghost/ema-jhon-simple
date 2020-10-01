@@ -80,17 +80,13 @@ function Login() {
     if(newUser && user.email && user.password){
        createUserWithEmailAndPassword(user.name,user.email,user.password)
        .then(res =>{
-         setUser(res);
-         setlogInUser(res);
-         history.replace(from);
+         handleResponse(res,true)
        })
     }
       if(!newUser && user.email && user.password){
         signInWithEmailAndPassword(user.email,user.password)
         .then(res =>{
-          setUser(res);
-          setlogInUser(res);
-          history.replace(from);
+          handleResponse(res,true)
         })
       }
       e.preventDefault();
