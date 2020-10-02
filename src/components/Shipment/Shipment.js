@@ -13,7 +13,7 @@ const Shipment = () => {
     const onSubmit = data => {
         const savedCart = getDatabaseCart();
         const orderdDetail = {...logInUser,products : savedCart, shipment : data}
-        fetch("http://localhost:5000/addOrder",{
+        fetch("https://limitless-refuge-15832.herokuapp.com/addOrder",{
           method : "POST",
           headers : {'content-type' : 'application/json'},
           body : JSON.stringify(orderdDetail)
