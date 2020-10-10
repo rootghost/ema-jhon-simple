@@ -11,14 +11,15 @@ const Shop = () => {
     // const first10 = fakedata.slice(0,10);
     const [products,setProduct] = useState([]);
     const [cart,setCart] = useState([])
+    const [search,setSearch] = useState('')
 
     useEffect(() =>{
-        fetch("https://limitless-refuge-15832.herokuapp.com/products")
+        fetch("http://localhost:5000/products?search="+search)
         .then(res => res.json())
         .then(data => {
             setProduct(data)
         })
-    },[])
+    },[search])
 
     useEffect(()=>{
         const savedCart = getDatabaseCart();
@@ -56,10 +57,21 @@ const Shop = () => {
         setCart(newCart);
         addToDatabaseCart(product.key,count);
     }
+
+
+const handleSearch = (e) =>{
+    setSearch(e.target.value)
+}
+
+    document.title ="Shop"
     
     return (
         <div className="twin-container">
            <div className="product-container">
+               <input type="text" onBlur={handleSearch} className="product-search"/>
+               {
+                   products.length === 0 && <p>loading...</p>
+               }
                 {
                     products.map(pd => <Product key={pd.key} addToCart="true" handleAddProduct={handleAddProduct} product={pd}></Product>)
                 }

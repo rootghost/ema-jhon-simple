@@ -42,6 +42,7 @@ const Review = () => {
     if(orderPlace){
        thankyou =  <img src={happyImage} alt=""/>
     }
+    document.title = "review"
 
     return (
         <div className="twin-container">

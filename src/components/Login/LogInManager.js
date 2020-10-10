@@ -23,9 +23,18 @@ export const handleGoogleSignIn =() =>{
       
 
       }
+      setUserToken();
       return userInfo;
     })
   }
+
+const setUserToken = () =>{
+  firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+    sessionStorage.setItem('token',idToken)
+  }).catch(function(error) {
+    // Handle error
+  });
+}
 
 export const handleSignOut = () =>{
     return firebase.auth().signOut()
